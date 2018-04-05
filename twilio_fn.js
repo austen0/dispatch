@@ -1,21 +1,29 @@
 exports.handler = function(context, event, callback) {
-  var request = require('request');
-  var log_error = ''
+  var error_log = '';
+  var success_log = '';
 
-  request(
-    {
-      method: 'PUT',
-      url: context.JSONBIN_URL,
-      headers: {
-        'content-type': 'application/json',
-        'secret-key': context.JSONBIN_KEY
-      },
-      body: JSON.stringify({"message": "words"})
+  var jsdom = require('jsdom');
+  const { JSDOM } = jsdom;
+  const { window } = new JSDOM('<html></html>');
+  var $ = require('jquery')(window);
+
+  $.ajax({
+    url: context.JSONBIN_URL,
+    type: 'PUT',
+    contentType: 'application/json',
+    headers: {
+      'secret-key': context.JSONBIN_KEY
     },
-    function (error, response, body) {
-      log_error = error;
+    data: JSON.stringify({ message: "words" }),
+    success: (data) => {
+      console.log(data);
+      success_log = data;
+    },
+    error: (err) => {
+      console.log(err.responseJSON);
+      error_log = err.responseJSON;
     }
-  );
+  });
 
-  callback(log_error, 'success');
+  callback(error_log, success_log);
 };
