@@ -5,7 +5,7 @@ exports.handler = function(context, event, callback) {
   request(
     {
       method: 'PUT',
-      url: 'https://google.com',
+      url: context.JSONBIN_URL,
       headers: {
         'content-type': 'application/json',
         'secret-key': context.JSONBIN_KEY

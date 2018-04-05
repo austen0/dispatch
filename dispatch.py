@@ -41,6 +41,7 @@ def pull():
   )
   print r.json()['message']
 
+
 def arg_parser():
   # parse runtime flags
   parser = argparse.ArgumentParser(description='dispatch')
@@ -59,6 +60,7 @@ def arg_parser():
       help='Destination for message (default: all).'
   )
   return parser.parse_args()
+
 
 def main():
   args = arg_parser()
